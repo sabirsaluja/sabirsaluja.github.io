@@ -1,0 +1,96 @@
+---
+import Base from '../layouts/Base.astro';
+import { disclaimer, person, profiles } from '../site';
+---
+
+<Base
+  title="Contact | Sabir Saluja, MD, Radiology Resident"
+  description="Contact Sabir Saluja, MD, Radiology Resident at Montefiore Medical Center, by professional email for academic, research, and professional inquiries."
+>
+  <div class="container page">
+    <header class="page-header">
+      <p class="eyebrow">Contact</p>
+      <h1>Contact</h1>
+      <p>For academic, research, and professional inquiries, email is the best way to reach me.</p>
+    </header>
+
+    <dl class="contact-list">
+      <div>
+        <dt>Email</dt>
+        <dd><a href={`mailto:${person.email}`}>{person.email}</a></dd>
+      </div>
+      <div>
+        <dt>Position</dt>
+        <dd>{person.title}, Department of Radiology</dd>
+      </div>
+      <div>
+        <dt>Institution</dt>
+        <dd>{person.institution}, {person.location}</dd>
+      </div>
+      {
+        profiles.length > 0 && (
+          <div>
+            <dt>Profiles</dt>
+            <dd>
+              <ul class="profiles">
+                {profiles.map(({ label, url }) => (
+                  <li>
+                    <a href={url} rel="me noopener" target="_blank">
+                      {label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </dd>
+          </div>
+        )
+      }
+    </dl>
+
+    <aside class="notice" aria-label="Medical disclaimer">
+      <p>{disclaimer}</p>
+    </aside>
+  </div>
+</Base>
+
+<style>
+  .contact-list {
+    display: grid;
+    gap: var(--space-m);
+    margin: 0;
+    max-width: var(--measure);
+  }
+  .contact-list > div {
+    display: grid;
+    gap: var(--space-3xs) var(--space-l);
+  }
+
+  dt {
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+  dd {
+    margin: 0;
+    font-size: var(--step-1);
+    overflow-wrap: anywhere;
+  }
+
+  .profiles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs) var(--space-m);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  @media (min-width: 40rem) {
+    .contact-list > div {
+      grid-template-columns: 9rem 1fr;
+      align-items: baseline;
+    }
+  }
+</style>

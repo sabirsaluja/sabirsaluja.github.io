@@ -1,0 +1,98 @@
+---
+import type { CvEntry } from '../data/cv';
+
+interface Props {
+  id: string;
+  heading: string;
+  entries: CvEntry[];
+}
+
+const { id, heading, entries } = Astro.props;
+---
+
+<section class="cv-section" aria-labelledby={id}>
+  <h2 id={id}>{heading}</h2>
+  <ol class="cv-list">
+    {
+      entries.map(({ org, role, location, dates, points }) => (
+        <li class="cv-entry">
+          <div class="cv-head">
+            <h3>{org}</h3>
+            {dates && <p class="cv-dates">{dates}</p>}
+          </div>
+          <p class="cv-role">
+            {role}
+            {location && <span class="cv-location"> · {location}</span>}
+          </p>
+          {points && (
+            <ul class="cv-points">
+              {points.map((point) => (
+                <li>{point}</li>
+              ))}
+            </ul>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<style>
+  .cv-section h2 {
+    padding-bottom: var(--space-2xs);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .cv-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .cv-entry {
+    padding-block: var(--space-s);
+  }
+  .cv-entry + .cv-entry {
+    border-top: 1px dashed var(--color-border);
+  }
+
+  .cv-head {
+    display: grid;
+    gap: 0 var(--space-m);
+  }
+
+  @media (min-width: 40rem) {
+    .cv-head {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: baseline;
+    }
+  }
+
+  h3 {
+    margin: 0;
+  }
+
+  .cv-dates {
+    margin: 0;
+    font-size: var(--step--1);
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .cv-role {
+    margin: var(--space-3xs) 0 0;
+    color: var(--color-text-muted);
+    font-size: var(--step--1);
+  }
+
+  .cv-points {
+    margin: var(--space-2xs) 0 0;
+    padding-left: 1.2em;
+    max-width: var(--measure);
+    font-size: var(--step--1);
+  }
+  .cv-points li + li {
+    margin-top: var(--space-3xs);
+  }
+</style>

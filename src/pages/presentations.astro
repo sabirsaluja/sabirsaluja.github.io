@@ -1,0 +1,93 @@
+---
+import Base from '../layouts/Base.astro';
+import { getPresentations } from '../lib/collections';
+
+const presentations = await getPresentations();
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+---
+
+<Base
+  title="Presentations | Sabir Saluja, MD, Radiology Resident"
+  description="Oral and poster presentations by Sabir Saluja, MD, Radiology Resident at Montefiore Medical Center, at national and international neurosurgery meetings."
+>
+  <div class="container page">
+    <header class="page-header">
+      <p class="eyebrow">Presentations</p>
+      <h1>Presentations</h1>
+      <p>Oral and poster presentations at scientific meetings.</p>
+    </header>
+
+    <ol class="talks">
+      {
+        presentations.map(({ data }) => (
+          <li class="talk">
+            <p class="talk-meta">
+              <time datetime={data.date.toISOString().slice(0, 10)}>{formatDate(data.date)}</time>
+              <span class="badge">{data.type}</span>
+            </p>
+            <h2>{data.title}</h2>
+            {data.authors && <p class="talk-authors">{data.authors}</p>}
+            <p class="talk-event">
+              {data.event} · {data.location}
+            </p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</Base>
+
+<style>
+  .talks {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: 52rem;
+  }
+
+  .talk {
+    padding-block: var(--space-m);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .talk:first-child {
+    padding-top: 0;
+  }
+
+  .talk h2 {
+    font-size: var(--step-1);
+    line-height: var(--leading-snug);
+    margin: 0 0 var(--space-2xs);
+  }
+
+  .talk-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    margin: 0 0 var(--space-2xs);
+    font-size: var(--step--1);
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .badge {
+    padding: 0.05em 0.6em;
+    border-radius: 999px;
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+    font-size: 0.85em;
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+
+  .talk-authors,
+  .talk-event {
+    margin: 0;
+    font-size: var(--step--1);
+    color: var(--color-text-muted);
+  }
+  .talk-event {
+    color: var(--color-text);
+  }
+</style>

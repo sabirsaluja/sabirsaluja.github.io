@@ -1,0 +1,245 @@
+---
+import { Picture } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Citation from '../components/Citation.astro';
+import headshot from '../assets/headshot.jpg';
+import { person, profiles } from '../site';
+import { getPublications } from '../lib/collections';
+import { interests } from '../data/cv';
+
+const publications = await getPublications();
+const selected = publications
+  .filter((p) => p.data.status === 'published' && p.data.authors.startsWith('Saluja S'))
+  .slice(0, 3);
+
+const siteUrl = new URL('/', Astro.site).href;
+const imageUrl = new URL('/images/sabir-saluja-md-headshot.jpg', Astro.site).href;
+
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': `${siteUrl}#person`,
+  name: person.name,
+  givenName: 'Sabir',
+  familyName: 'Saluja',
+  honorificSuffix: person.credential,
+  jobTitle: person.jobTitle,
+  description: `${person.fullName}, is a ${person.title.toLowerCase()} at ${person.institution} in the ${person.location}.`,
+  affiliation: {
+    '@type': 'Hospital',
+    name: person.institution,
+    address: { '@type': 'PostalAddress', addressLocality: 'Bronx', addressRegion: 'NY', addressCountry: 'US' },
+  },
+  alumniOf: [
+    { '@type': 'CollegeOrUniversity', name: 'Renaissance School of Medicine at Stony Brook University' },
+    { '@type': 'CollegeOrUniversity', name: 'University of Southern California' },
+  ],
+  knowsAbout: ['Diagnostic radiology', 'Neuroimaging', 'Diffusion MRI tractography', 'Neuromodulation'],
+  email: `mailto:${person.email}`,
+  image: imageUrl,
+  url: siteUrl,
+  ...(profiles.length > 0 && { sameAs: profiles.map((p) => p.url) }),
+};
+
+const websiteLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: person.fullName,
+  url: siteUrl,
+  author: { '@id': `${siteUrl}#person` },
+};
+---
+
+<Base
+  title="Sabir Saluja, MD | Radiology Resident at Montefiore Medical Center"
+  description="Sabir Saluja, MD, is a Radiology Resident (diagnostic radiology) at Montefiore Medical Center in the Bronx, New York, with research in neuroimaging and neuromodulation."
+  jsonLd={[personLd, websiteLd]}
+>
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-photo">
+        <Picture
+          src={headshot}
+          formats={['avif', 'webp']}
+          widths={[280, 420, 560, 840]}
+          sizes="(min-width: 56rem) 280px, (min-width: 40rem) 220px, 60vw"
+          alt="Headshot of Sabir Saluja, MD, smiling, wearing a navy suit and tie against a gray backdrop"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+      <div class="hero-text">
+        <p class="eyebrow">{person.title} · {person.institution}</p>
+        <h1>{person.fullName}</h1>
+        <p class="identity">
+          Diagnostic radiology resident with a research background in neuroimaging and
+          neuromodulation.
+        </p>
+        <div class="bio">
+          <p>
+            Sabir Saluja, MD, is a resident physician in diagnostic radiology at Montefiore Medical
+            Center in the Bronx, New York. Dr. Saluja completed a transitional year internship at
+            Sutter Health Alta Bates Summit Medical Center in Oakland, California, after earning an MD
+            from the Renaissance School of Medicine at Stony Brook University and a BS in neuroscience
+            from the University of Southern California.
+          </p>
+          <p>
+            Dr. Saluja’s research uses diffusion MRI tractography to study deep brain stimulation,
+            focused ultrasound, and recovery of consciousness after severe traumatic brain injury,
+            through work with neurosurgery teams at Stanford Medicine, Penn Medicine, and Stony Brook
+            Medicine.
+          </p>
+        </div>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="/about/">About &amp; CV</a>
+          <a class="btn btn-secondary" href="/publications/">Publications</a>
+          <a class="btn btn-secondary" href="/contact/">Contact</a>
+        </div>
+        {
+          profiles.length > 0 && (
+            <ul class="profiles" aria-label="Professional profiles">
+              {profiles.map(({ label, url }) => (
+                <li>
+                  <a href={url} rel="me noopener" target="_blank">
+                    {label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="container home-section" aria-labelledby="interests-heading">
+    <h2 id="interests-heading">Interests</h2>
+    <div class="interest-grid">
+      <div>
+        <h3>Clinical</h3>
+        <ul class="tag-list">{interests.clinical.map((item) => <li>{item}</li>)}</ul>
+      </div>
+      <div>
+        <h3>Research</h3>
+        <ul class="tag-list">{interests.research.map((item) => <li>{item}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="container home-section" aria-labelledby="selected-heading">
+    <div class="section-head">
+      <h2 id="selected-heading">Selected publications</h2>
+      <a href="/publications/">All {publications.length} publications →</a>
+    </div>
+    {selected.map((pub) => <Citation pub={pub} />)}
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-block: var(--space-xl) var(--space-l);
+  }
+
+  .hero-inner {
+    display: grid;
+    gap: var(--space-l);
+    align-items: start;
+  }
+
+  .hero-photo {
+    width: min(60vw, 240px);
+  }
+  .hero-photo :global(img) {
+    width: 100%;
+    aspect-ratio: 5 / 7;
+    object-fit: cover;
+    border-radius: var(--radius-l);
+    box-shadow: var(--shadow-m);
+    background: var(--color-surface-2);
+  }
+
+  h1 {
+    margin-bottom: var(--space-xs);
+  }
+
+  .identity {
+    font-family: var(--font-serif);
+    font-size: var(--step-1);
+    line-height: var(--leading-snug);
+    color: var(--color-text);
+    max-width: 40ch;
+    margin-bottom: var(--space-m);
+  }
+
+  .bio {
+    max-width: var(--measure);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-m);
+  }
+
+  .profiles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs) var(--space-m);
+    list-style: none;
+    padding: 0;
+    margin: var(--space-m) 0 0;
+    font-size: var(--step--1);
+  }
+
+  .home-section {
+    padding-bottom: var(--space-l);
+  }
+  .home-section h2 {
+    margin-top: var(--space-l);
+  }
+
+  .interest-grid {
+    display: grid;
+    gap: var(--space-m) var(--space-xl);
+  }
+  .interest-grid h3 {
+    font-family: var(--font-sans);
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-xs);
+  }
+
+  .section-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2xs) var(--space-m);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .section-head a {
+    font-size: var(--step--1);
+    font-weight: 500;
+  }
+
+  @media (min-width: 40rem) {
+    .hero-inner {
+      grid-template-columns: 220px 1fr;
+      gap: var(--space-xl);
+    }
+    .hero-photo {
+      width: 100%;
+    }
+    .interest-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 56rem) {
+    .hero {
+      padding-block: var(--space-2xl) var(--space-xl);
+    }
+    .hero-inner {
+      grid-template-columns: 280px 1fr;
+    }
+  }
+</style>

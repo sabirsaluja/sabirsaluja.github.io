@@ -1,0 +1,90 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  pub: CollectionEntry<'publications'>;
+  headingLevel?: 'h2' | 'h3';
+}
+
+const { pub, headingLevel: Heading = 'h3' } = Astro.props;
+const { title, authors, journal, year, details, doi, url, type, status } = pub.data;
+
+// Bold the first "Saluja S" in the author list.
+const self = 'Saluja S';
+const at = authors.indexOf(self);
+const before = at === -1 ? authors : authors.slice(0, at);
+const after = at === -1 ? '' : authors.slice(at + self.length);
+
+const href = url ?? (doi ? `https://doi.org/${doi}` : undefined);
+const label = status === 'submitted' ? 'Submitted' : type === 'article' ? null : type;
+---
+
+<article class="citation">
+  <Heading class="citation-title">
+    {href ? <a href={href}>{title}</a> : title}
+  </Heading>
+  <p class="citation-authors">
+    {before}{at !== -1 && <strong>{self}</strong>}{after}
+  </p>
+  <p class="citation-source">
+    {journal && <cite>{journal}</cite>}
+    {journal && '. '}
+    {year}{details && `;${details}`}.
+    {doi && <span class="doi">doi:{doi}</span>}
+    {label && <span class="badge">{label}</span>}
+  </p>
+</article>
+
+<style>
+  .citation {
+    padding-block: var(--space-m);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .citation-title {
+    font-size: var(--step-1);
+    margin: 0 0 var(--space-2xs);
+  }
+  .citation-title a {
+    color: var(--color-text);
+    text-decoration-color: var(--color-border);
+  }
+  .citation-title a:hover {
+    color: var(--color-accent);
+    text-decoration-color: currentColor;
+  }
+
+  .citation-authors,
+  .citation-source {
+    margin: 0;
+    font-size: var(--step--1);
+    color: var(--color-text-muted);
+  }
+  .citation-authors strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  cite {
+    font-style: italic;
+    color: var(--color-text);
+  }
+
+  .doi {
+    margin-left: 0.4em;
+    overflow-wrap: anywhere;
+  }
+
+  .badge {
+    display: inline-block;
+    margin-left: 0.6em;
+    padding: 0.05em 0.6em;
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    font-size: 0.8em;
+    font-weight: 600;
+    text-transform: capitalize;
+    color: var(--color-text-muted);
+    vertical-align: 0.05em;
+  }
+</style>

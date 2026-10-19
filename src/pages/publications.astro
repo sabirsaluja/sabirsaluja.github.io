@@ -1,0 +1,64 @@
+---
+import Base from '../layouts/Base.astro';
+import Citation from '../components/Citation.astro';
+import { getPublications } from '../lib/collections';
+
+const publications = await getPublications();
+
+// Group by year, newest first.
+const byYear = new Map<number, typeof publications>();
+for (const pub of publications) {
+  byYear.set(pub.data.year, [...(byYear.get(pub.data.year) ?? []), pub]);
+}
+---
+
+<Base
+  title="Publications | Sabir Saluja, MD, Radiology Resident"
+  description="Peer-reviewed publications by Sabir Saluja, MD, Radiology Resident at Montefiore Medical Center, in neuroimaging, diffusion MRI tractography, deep brain stimulation, and traumatic brain injury."
+>
+  <div class="container page">
+    <header class="page-header">
+      <p class="eyebrow">Publications</p>
+      <h1>Publications</h1>
+      <p>
+        Journal articles, case reports, and abstracts. Titles link to the published version via DOI.
+      </p>
+    </header>
+
+    {
+      [...byYear].map(([year, pubs]) => (
+        <section class="year" aria-labelledby={`y${year}`}>
+          <h2 id={`y${year}`}>{year}</h2>
+          <div>
+            {pubs.map((pub) => (
+              <Citation pub={pub} />
+            ))}
+          </div>
+        </section>
+      ))
+    }
+  </div>
+</Base>
+
+<style>
+  .year {
+    display: grid;
+    gap: 0 var(--space-l);
+  }
+  .year h2 {
+    margin: var(--space-l) 0 0;
+    font-size: var(--step-1);
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (min-width: 40rem) {
+    .year {
+      grid-template-columns: 4.5rem minmax(0, 1fr);
+    }
+    .year h2 {
+      margin-top: var(--space-m);
+      padding-top: 0.2em;
+    }
+  }
+</style>
