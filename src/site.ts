@@ -14,8 +14,8 @@ export const person = {
 // Profile links. Leave a URL empty until it exists. Empty entries are hidden
 // everywhere and left out of the JSON-LD `sameAs` list.
 export const profiles: { label: string; url: string }[] = [
-  { label: 'Doximity', url: '' },
-  { label: 'LinkedIn', url: '' },
+  { label: 'Doximity', url: 'https://www.doximity.com/pub/sabir-saluja-md' },
+  { label: 'LinkedIn', url: 'https://www.linkedin.com/in/sabir-saluja-685933a9/' },
   { label: 'ORCID', url: '' },
   { label: 'Google Scholar', url: '' },
   { label: 'Montefiore profile', url: '' },
