@@ -21,9 +21,13 @@ export const profiles: { label: string; url: string }[] = [
   { label: 'Montefiore profile', url: '' },
 ].filter((p) => p.url);
 
-export const nav = [
+/** Redacted CV (no phone number). Regenerate from source-material/ when the CV changes. */
+export const cvUrl = '/cv/Sabir-Saluja-MD-CV.pdf';
+
+export const nav: { href: string; label: string; newTab?: boolean }[] = [
   { href: '/', label: 'Home' },
-  { href: '/about/', label: 'About & CV' },
+  { href: '/about/', label: 'About' },
+  { href: cvUrl, label: 'CV', newTab: true },
   { href: '/publications/', label: 'Publications' },
   { href: '/presentations/', label: 'Presentations' },
   { href: '/contact/', label: 'Contact' },

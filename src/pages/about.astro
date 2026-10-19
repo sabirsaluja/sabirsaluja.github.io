@@ -1,49 +1,41 @@
 ---
 import Base from '../layouts/Base.astro';
 import CvSection from '../components/CvSection.astro';
-import { education, honors, interests, research, service, training } from '../data/cv';
-import { getPresentations, getPublications } from '../lib/collections';
-
-const publicationCount = (await getPublications()).length;
-const presentationCount = (await getPresentations()).length;
+import { education, interests, training } from '../data/cv';
+import { cvUrl } from '../site';
 ---
 
 <Base
-  title="About & CV | Sabir Saluja, MD, Radiology Resident"
-  description="Curriculum vitae of Sabir Saluja, MD, Radiology Resident at Montefiore Medical Center: residency and internship training, education, research experience, interests, and honors."
+  title="About | Sabir Saluja, MD, Radiology Resident"
+  description="About Sabir Saluja, MD, Radiology Resident at Montefiore Medical Center: residency and internship training, education, clinical and research interests, and full CV."
 >
   <div class="container page">
     <header class="page-header">
-      <p class="eyebrow">About &amp; CV</p>
+      <p class="eyebrow">About</p>
       <h1>Sabir Saluja, MD</h1>
-      <p>
-        Radiology Resident at Montefiore Medical Center in the Bronx, New York.
-      </p>
+      <p>Radiology Resident at Montefiore Medical Center in the Bronx, New York.</p>
     </header>
 
     <div class="layout">
       <div>
         <CvSection id="training" heading="Training" entries={training} />
         <CvSection id="education" heading="Education" entries={education} />
-        <CvSection id="research" heading="Research experience" entries={research} />
-        <CvSection id="honors" heading="Honors" entries={honors} />
-        <CvSection id="service" heading="Service and volunteering" entries={service} />
       </div>
 
       <aside class="sidebar" aria-label="Summary">
+        <section aria-labelledby="cv-heading">
+          <h2 id="cv-heading">Curriculum vitae</h2>
+          <p class="muted">Research experience, publications, presentations, and service.</p>
+          <a class="btn btn-primary" href={cvUrl} target="_blank" rel="noopener">
+            View CV (PDF)<span class="visually-hidden">, opens in a new tab</span>
+          </a>
+        </section>
         <section aria-labelledby="interests-heading">
           <h2 id="interests-heading">Interests</h2>
           <h3>Clinical</h3>
           <ul class="tag-list">{interests.clinical.map((item) => <li>{item}</li>)}</ul>
           <h3>Research</h3>
           <ul class="tag-list">{interests.research.map((item) => <li>{item}</li>)}</ul>
-        </section>
-        <section aria-labelledby="scholarship-heading">
-          <h2 id="scholarship-heading">Scholarship</h2>
-          <ul class="link-list">
-            <li><a href="/publications/">{publicationCount} publications</a></li>
-            <li><a href="/presentations/">{presentationCount} oral presentations</a></li>
-          </ul>
         </section>
       </aside>
     </div>
@@ -60,7 +52,6 @@ const presentationCount = (await getPresentations()).length;
   }
 
   .sidebar {
-    order: -1;
     display: grid;
     gap: var(--space-m);
     align-content: start;
@@ -74,7 +65,10 @@ const presentationCount = (await getPresentations()).length;
   }
   .sidebar h2 {
     font-size: var(--step-1);
-    margin: 0 0 var(--space-s);
+    margin: 0 0 var(--space-xs);
+  }
+  .sidebar p {
+    font-size: var(--step--1);
   }
   .sidebar h3 {
     font-family: var(--font-sans);
@@ -89,24 +83,16 @@ const presentationCount = (await getPresentations()).length;
     margin-top: 0;
   }
 
-  .link-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  .link-list li + li {
-    margin-top: var(--space-2xs);
+  @media (max-width: 55.99rem) {
+    .sidebar {
+      order: -1;
+    }
   }
 
   @media (min-width: 56rem) {
     .layout {
       grid-template-columns: minmax(0, 1fr) 17rem;
       gap: var(--space-2xl);
-    }
-    .sidebar {
-      order: 0;
-      position: sticky;
-      top: var(--space-l);
     }
   }
 </style>
