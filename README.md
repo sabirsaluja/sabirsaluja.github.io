@@ -14,8 +14,8 @@ npm run preview    # preview the production build
 - **Publications:** add a Markdown file to `src/content/publications/` (copy an existing one).
 - **Presentations:** add a Markdown file to `src/content/presentations/`.
 - **About page (training, education, interests):** edit `src/data/cv.ts`.
-- **CV PDF:** `public/cv/Sabir-Saluja-MD-CV.pdf` is a redacted copy of the CV in `source-material/` (personal phone number removed). Never publish the unredacted file.
+- **CV PDF:** `public/cv/Sabir-Saluja-MD-CV.pdf` is the public copy of the CV in `source-material/`. Check that it has no personal phone number before replacing it.
 - **Name, email, profile links:** edit `src/site.ts`. Profile links left empty are hidden.
 - **Domain:** `site` in `astro.config.mjs`.
 
-`source-material/` (original CV PDF, original headshot) is gitignored because the original CV contains a personal phone number.
+`source-material/` (original CV PDF, original headshot) is gitignored because it holds private originals.

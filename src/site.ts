@@ -8,7 +8,7 @@ export const person = {
   jobTitle: 'Resident Physician, Diagnostic Radiology',
   institution: 'Montefiore Medical Center',
   location: 'Bronx, New York',
-  email: 'sabir.saluja@montefiore.org',
+  email: 'sabsaluja@montefiore.org',
 };
 
 // Profile links. Leave a URL empty until it exists. Empty entries are hidden
@@ -21,7 +21,7 @@ export const profiles: { label: string; url: string }[] = [
   { label: 'Montefiore profile', url: '' },
 ].filter((p) => p.url);
 
-/** Redacted CV (no phone number). Regenerate from source-material/ when the CV changes. */
+/** Public copy of the CV in source-material/. It must never contain a personal phone number. */
 export const cvUrl = '/cv/Sabir-Saluja-MD-CV.pdf';
 
 export const nav: { href: string; label: string; newTab?: boolean }[] = [

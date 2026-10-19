@@ -1,5 +1,5 @@
 // Summary for the About page, transcribed from source-material/Sabir_Saluja_CV_2026.pdf.
-// The full CV is the redacted PDF in public/cv/ (phone number and old email removed).
+// The full CV is the PDF in public/cv/.
 
 export interface CvEntry {
   org: string;
