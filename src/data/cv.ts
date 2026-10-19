@@ -33,7 +33,8 @@ export const education: CvEntry[] = [
   },
   {
     org: 'University of Southern California',
-    role: 'Bachelor of Science (BS), Neuroscience',
+    // The PDF CV says Neuroscience only; the website shows both (per Sabir).
+    role: 'Bachelor of Science (BS), Neuroscience and Computer Science',
     location: 'Los Angeles, CA',
     dates: '2014 – 2018',
   },
