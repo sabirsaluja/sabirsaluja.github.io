@@ -20,7 +20,7 @@ Contact:sabir.saluja@montefiore.org
 - **Styling:** Plain CSS with custom properties (design tokens) in `src/styles/global.css`. Don't add Tailwind or a UI library unless I ask.
 - **JavaScript:** None shipped by default. Don't add React, Vue, or Svelte unless a feature truly needs it.
 - **Hosting:** GitHub Pages, deployed with the official Astro GitHub Actions workflow
-- **Domain:** [yourname.com], served over HTTPS
+- **Domain:** https://sabirsaluja.github.io (GitHub Pages user site, no custom domain), served over HTTPS
 - **Requirements:** Node.js LTS and npm. Python is not used in this project.
 
 ## Commands
@@ -85,7 +85,7 @@ Work one phase at a time. Use plan mode, wait for my approval, then implement. C
 3. **Pages and content:** Build each page from `/source-material/`. Set up the content collections and their schemas.
 4. **SEO layer:** Everything in the SEO requirements section above.
 5. **Deploy:** Add `.github/workflows/deploy.yml` using the official Astro action. I'll then set Settings → Pages → Source to "GitHub Actions".
-6. **Custom domain:** Add `public/CNAME` containing [yourname.com] and set `site` in `astro.config.mjs`. I'll configure DNS myself: A/AAAA records for the apex domain pointing to GitHub Pages, and a CNAME for `www` pointing to [username].github.io. Then I'll enforce HTTPS.
+6. **Custom domain (skipped for now; site is served at sabirsaluja.github.io):** Add `public/CNAME` containing the domain and set `site` in `astro.config.mjs`. I'll configure DNS myself: A/AAAA records for the apex domain pointing to GitHub Pages, and a CNAME for `www` pointing to sabirsaluja.github.io. Then I'll enforce HTTPS.
 7. **Search visibility (done by me):** Verify the domain in Google Search Console, submit the sitemap, and link back to the site from all my profiles.
 
 ## Definition of done (check at the end of every phase)
@@ -107,13 +107,13 @@ Work one phase at a time. Use plan mode, wait for my approval, then implement. C
 
 ## One-time setup (done by me, before Claude Code)
 
-1. On github.com, click **+** → **New repository**. Name it `[username].github.io` (or any name, if using a custom domain). Make it **Public**, and leave README, .gitignore, and license unchecked.
+1. On github.com, click **+** → **New repository**. Name it `sabirsaluja.github.io` (or any name, if using a custom domain). Make it **Public**, and leave README, .gitignore, and license unchecked.
 2. Clone the repo and start Claude Code:
    ```bash
-   git clone https://github.com/[username]/[repo].git
-   cd [repo]
+   git clone https://github.com/sabirsaluja/sabirsaluja.github.io.git
+   cd sabirsaluja.github.io
    # put this CLAUDE.md in the folder, add /source-material/
    claude
    ```
-   Or with GitHub CLI: `gh auth login`, then `gh repo create [repo] --public --clone`
+   Or with GitHub CLI: `gh auth login`, then `gh repo create sabirsaluja.github.io --public --clone`
 3. First prompt: **"Read CLAUDE.md. Start Phase 1 in plan mode."**

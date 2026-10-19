@@ -2,10 +2,11 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// TODO(phase 6): confirm the custom domain. Canonical URLs, Open Graph
-// image URLs, the sitemap, and robots.txt are all derived from `site`.
+// Hosted on GitHub Pages as a user site (repo: sabirsaluja.github.io). Canonical
+// URLs, Open Graph image URLs, the sitemap, and robots.txt all derive from `site`.
+// If a custom domain is added later, change this and add public/CNAME.
 export default defineConfig({
-  site: 'https://sabirsaluja.com',
+  site: 'https://sabirsaluja.github.io',
   output: 'static',
   trailingSlash: 'ignore',
   integrations: [sitemap()],
