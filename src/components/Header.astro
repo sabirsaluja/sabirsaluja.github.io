@@ -1,0 +1,98 @@
+---
+import { nav, person } from '../site';
+
+const current = Astro.url.pathname.replace(/\/?$/, '/');
+const isCurrent = (href: string) =>
+  href === '/' ? current === '/' : current.startsWith(href);
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/">
+      <span class="brand-name">{person.fullName}</span>
+      <span class="brand-title">{person.title}</span>
+    </a>
+    <nav aria-label="Main">
+      <ul>
+        {
+          nav.map(({ href, label }) => (
+            <li>
+              <a href={href} aria-current={isCurrent(href) ? 'page' : undefined}>
+                {label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg);
+  }
+
+  .header-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2xs) var(--space-l);
+    padding-block: var(--space-s);
+  }
+
+  .brand {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--color-text);
+    line-height: 1.2;
+  }
+  .brand-name {
+    font-family: var(--font-serif);
+    font-size: var(--step-1);
+    font-weight: 600;
+  }
+  .brand-title {
+    font-size: var(--step--1);
+    color: var(--color-text-muted);
+  }
+
+  nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-s);
+    list-style: none;
+    margin: 0 0 0 calc(-1 * var(--space-2xs));
+    padding: 0;
+  }
+
+  nav a {
+    display: inline-block;
+    padding: var(--space-2xs);
+    font-size: var(--step--1);
+    font-weight: 500;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+  }
+  nav a:hover {
+    color: var(--color-accent);
+  }
+  nav a[aria-current='page'] {
+    color: var(--color-text);
+    border-bottom-color: var(--color-accent);
+  }
+
+  @media (max-width: 39.99rem) {
+    .header-inner {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    nav ul {
+      gap: 0 var(--space-3xs);
+    }
+  }
+</style>

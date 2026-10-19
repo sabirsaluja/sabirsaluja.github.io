@@ -1,0 +1,62 @@
+---
+import { person, profiles } from '../site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>
+      © {year} {person.fullName} · {person.title}, {person.institution}
+    </p>
+    <ul>
+      <li><a href={`mailto:${person.email}`}>{person.email}</a></li>
+      {
+        profiles.map(({ label, url }) => (
+          <li>
+            <a href={url} rel="me noopener" target="_blank">
+              {label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--color-border);
+    padding-block: var(--space-l);
+    font-size: var(--step--1);
+    color: var(--color-text-muted);
+  }
+
+  .footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-xs) var(--space-l);
+  }
+
+  p {
+    margin: 0;
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs) var(--space-m);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    color: var(--color-text-muted);
+    overflow-wrap: anywhere;
+  }
+  a:hover {
+    color: var(--color-accent);
+  }
+</style>
