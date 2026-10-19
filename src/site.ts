@@ -17,7 +17,7 @@ export const profiles: { label: string; url: string }[] = [
   { label: 'Doximity', url: 'https://www.doximity.com/pub/sabir-saluja-md' },
   { label: 'LinkedIn', url: 'https://www.linkedin.com/in/sabir-saluja-685933a9/' },
   { label: 'ORCID', url: '' },
-  { label: 'Google Scholar', url: '' },
+  { label: 'Google Scholar', url: 'https://scholar.google.com/citations?user=rHTdnUQAAAAJ' },
   { label: 'Montefiore profile', url: '' },
 ].filter((p) => p.url);
 
